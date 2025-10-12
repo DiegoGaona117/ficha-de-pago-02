@@ -518,6 +518,25 @@
                 💬 Contactar Soporte
             </button>
         </div>
+
+        <div id="finalExpiredContainer" class="timer-expired" style="display: none;">
+            <h3>⏰ Tiempo Agotado Definitivamente</h3>
+            
+            <div class="price-change-notice">
+                <h4>⚠️ Precio Final</h4>
+                <div class="price-comparison">
+                    <span class="old-price">$129 MXN</span>
+                    <span>→</span>
+                    <span class="new-price">$299 MXN</span>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.9rem;">Ya no hay más extensiones disponibles</p>
+            </div>
+
+            <p>Puedes completar tu compra al precio actual de $299 MXN</p>
+            <button class="contact-support-btn" onclick="contactSupport()">
+                💬 Contactar Soporte
+            </button>
+        </div>
         
         <div class="content">
             <div class="order-summary">
@@ -616,12 +635,14 @@
         const EXTENSION_DURATION = 10 * 60; // 10 minutes in seconds
         const WARNING_TIME = 5 * 60; // 5 minutes
         const DANGER_TIME = 60; // 1 minute
+        const MAX_EXTENSIONS = 1; // Maximum number of extensions allowed
 
         let timerInterval;
 
         // Initialize timer on page load
         function initTimer() {
             const storedEndTime = localStorage.getItem('checkoutEndTime');
+            const extensionsUsed = parseInt(localStorage.getItem('extensionsUsed') || '0');
             const now = Math.floor(Date.now() / 1000);
 
             // Check if price should be at 299
@@ -643,13 +664,19 @@
                 // Timer already exists and is still valid
                 startTimerFromStorage(parseInt(storedEndTime));
             } else if (storedEndTime && parseInt(storedEndTime) <= now) {
-                // Timer expired, show expired state
-                timerExpired();
+                // Timer expired, check which screen to show
+                if (extensionsUsed < MAX_EXTENSIONS) {
+                    document.getElementById('expiredContainer').style.display = 'block';
+                } else {
+                    document.getElementById('finalExpiredContainer').style.display = 'block';
+                }
+                updatePrice(299);
             } else {
                 // Create new timer
                 const endTime = now + TIMER_DURATION;
                 localStorage.setItem('checkoutEndTime', endTime);
                 localStorage.setItem('currentPrice', 129);
+                localStorage.setItem('extensionsUsed', 0);
                 startTimerFromStorage(endTime);
             }
 
@@ -698,7 +725,17 @@
         function timerExpired() {
             clearInterval(timerInterval);
             document.getElementById('timerContainer').style.display = 'none';
-            document.getElementById('expiredContainer').style.display = 'block';
+            
+            const extensionsUsed = parseInt(localStorage.getItem('extensionsUsed') || '0');
+            
+            // Check if user can still extend
+            if (extensionsUsed < MAX_EXTENSIONS) {
+                // Show extension option
+                document.getElementById('expiredContainer').style.display = 'block';
+            } else {
+                // No more extensions allowed - show final expired state
+                document.getElementById('finalExpiredContainer').style.display = 'block';
+            }
             
             // Change price to $299
             updatePrice(299);
@@ -731,9 +768,20 @@
         }
 
         function extendTimer() {
+            const extensionsUsed = parseInt(localStorage.getItem('extensionsUsed') || '0');
+            
+            // Check if user has already used their extension
+            if (extensionsUsed >= MAX_EXTENSIONS) {
+                alert('Ya no hay más extensiones disponibles');
+                return;
+            }
+            
             const now = Math.floor(Date.now() / 1000);
             const newEndTime = now + EXTENSION_DURATION;
             localStorage.setItem('checkoutEndTime', newEndTime);
+            
+            // Increment extensions counter
+            localStorage.setItem('extensionsUsed', extensionsUsed + 1);
             
             // Restore original price
             updatePrice(129);
@@ -798,6 +846,7 @@
         function resetTimer() {
             localStorage.removeItem('checkoutEndTime');
             localStorage.removeItem('currentPrice');
+            localStorage.removeItem('extensionsUsed');
             location.reload();
         }
 
