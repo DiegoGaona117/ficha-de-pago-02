@@ -38,6 +38,8 @@
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
             --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
             --gray-50: #f8fafc;
             --gray-100: #f1f5f9;
             --gray-200: #e2e8f0;
@@ -96,6 +98,184 @@
             font-size: 1rem;
         }
 
+        /* TIMER STYLES */
+        .timer-container {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            padding: 1.5rem;
+            text-align: center;
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timer-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .timer-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .timer-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .timer-display {
+            font-size: 3rem;
+            font-weight: 800;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.1em;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            margin-bottom: 0.5rem;
+        }
+
+        .timer-display.warning {
+            animation: blink 1s ease-in-out infinite;
+            color: #fef3c7;
+        }
+
+        .timer-display.danger {
+            animation: blink 0.5s ease-in-out infinite;
+            color: #fee;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .timer-subtitle {
+            font-size: 0.875rem;
+            opacity: 0.95;
+        }
+
+        .timer-expired {
+            background: var(--gray-700);
+            padding: 1.5rem;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .timer-expired h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .timer-expired p {
+            margin-bottom: 1rem;
+            opacity: 0.9;
+        }
+
+        .price-change-notice {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border: 3px solid #fbbf24;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 1rem 0;
+            animation: priceAlert 1s ease-in-out;
+        }
+
+        @keyframes priceAlert {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .price-change-notice h4 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--white);
+        }
+
+        .price-comparison {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .old-price {
+            font-size: 1.5rem;
+            text-decoration: line-through;
+            opacity: 0.7;
+            color: var(--white);
+        }
+
+        .new-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fee;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .item-price.expired {
+            color: var(--danger);
+            font-size: 1.25rem;
+            animation: priceUpdate 0.5s ease-in-out;
+        }
+
+        @keyframes priceUpdate {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); color: #ef4444; }
+            100% { transform: scale(1); }
+        }
+
+        .extend-btn {
+            background: var(--warning);
+            color: var(--white);
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+
+        .extend-btn:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+        }
+
+        .contact-support-btn {
+            background: transparent;
+            color: var(--white);
+            padding: 0.75rem 2rem;
+            border: 2px solid var(--white);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.5rem;
+        }
+
+        .contact-support-btn:hover {
+            background: var(--white);
+            color: var(--gray-700);
+        }
+
+        /* REST OF ORIGINAL STYLES */
         .content {
             padding: 2rem;
         }
@@ -188,7 +368,7 @@
             border-radius: 6px;
             padding: 0.25rem 0.5rem;
             font-size: 0.75rem;
-            r: pointer;
+            cursor: pointer;
             transition: all 0.2s ease;
             margin-left: 0.5rem;
         }
@@ -239,7 +419,7 @@
             border-radius: var(--border-radius);
             font-size: 1.125rem;
             font-weight: 600;
-            r: pointer;
+            cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-flex;
@@ -267,23 +447,6 @@
             text-align: center;
         }
 
-        .back-link {
-            position: absolute;
-            top: 2rem;
-            left: 2rem;
-            color: var(--gray-600);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .back-link:hover {
-            color: var(--primary);
-        }
-
         @media (max-width: 640px) {
             body {
                 padding: 1rem 0.5rem;
@@ -296,6 +459,10 @@
             .header, .content {
                 padding: 1.5rem;
             }
+
+            .timer-display {
+                font-size: 2.5rem;
+            }
             
             .bank-detail {
                 flex-direction: column;
@@ -306,11 +473,6 @@
             .bank-value {
                 font-size: 0.875rem;
             }
-            
-            .back-link {
-                position: static;
-                margin-bottom: 1rem;
-            }
         }
     </style>
 </head>
@@ -320,10 +482,45 @@
             <h1>Finalizar Compra</h1>
             <p>Paquete SolidWorks + 200 Planos + Solidworks</p>
         </div>
+
+        <!-- TIMER SECTION -->
+        <div id="timerContainer" class="timer-container">
+            <div class="timer-content">
+                <div class="timer-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M15,1H9v2h6V1z M11,14h2V8h-2V14z M19.03,7.39l1.42-1.42c-0.43-0.51-0.9-0.99-1.41-1.41l-1.42,1.42 C16.07,4.74,14.12,4,12,4c-4.97,0-9,4.03-9,9s4.02,9,9,9s9-4.03,9-9C21,10.88,20.26,8.93,19.03,7.39z M12,20c-3.87,0-7-3.13-7-7 s3.13-7,7-7s7,3.13,7,7S15.87,20,12,20z"/>
+                    </svg>
+                    🔥 Tu paquete está reservado por:
+                </div>
+                <div id="timerDisplay" class="timer-display">30:00</div>
+                <div class="timer-subtitle">Completa tu transferencia antes de que expire</div>
+            </div>
+        </div>
+
+        <div id="expiredContainer" class="timer-expired" style="display: none;">
+            <h3>⏰ Tiempo Expirado</h3>
+            
+            <div class="price-change-notice">
+                <h4>⚠️ El precio ha cambiado</h4>
+                <div class="price-comparison">
+                    <span class="old-price">$129 MXN</span>
+                    <span>→</span>
+                    <span class="new-price">$299 MXN</span>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.9rem;">El precio promocional expiró</p>
+            </div>
+
+            <p>Aún puedes completar tu compra al nuevo precio</p>
+            <button class="extend-btn" onclick="extendTimer()">
+                ⏱️ Recuperar Precio de $129 (Solo 10 min más)
+            </button>
+            <button class="contact-support-btn" onclick="contactSupport()">
+                💬 Contactar Soporte
+            </button>
+        </div>
         
         <div class="content">
             <div class="order-summary">
-                
                 <div class="order-item">
                     <span class="item-name">+200 Planos PDF Profesionales</span>
                     <span class="item-price">Incluido</span>
@@ -332,7 +529,6 @@
                     <span class="item-name">+125 Archivos 3D Editables</span>
                     <span class="item-price">Incluido</span>
                 </div>
-                
                 <div class="order-item">
                     <span class="item-name"><strong>+BONUS</strong> Software SolidWorks 2022 Completo</span>
                     <span class="item-price">Incluido</span>
@@ -341,42 +537,9 @@
                     <span class="item-name">+Video de instalación paso a paso</span>
                     <span class="item-price">Incluido</span>
                 </div>
-                
-                <!--<div class="order-item">
-                    <span class="item-name">Curso Introducción SolidWorks</span>
-                    <span class="item-price">Incluido</span>
-                </div>
-                <div class="order-item">
-                    <span class="item-name"><strong>+BONUS</strong> Curso Introducción Autodesk Inventor</span>
-                    <span class="item-price">Incluido</span>
-                </div>
-                <div class="order-item">
-                    <span class="item-name"><strong>+BONUS</strong> Curso Iniciación a Catia V5</span>
-                    <span class="item-price">Incluido</span>
-                </div>
-                <div class="order-item">
-                    <span class="item-name"><strong>+BONUS</strong> Teoría y aplicaciones de falla por carga estática</span>
-                    <span class="item-price">Incluido</span>
-                </div>
-                <div class="order-item">
-                    <span class="item-name"><strong>+BONUS</strong> Introducción a los mecanismos</span>
-                    <span class="item-price">Incluido</span>
-                </div>
-                <div class="order-item">
-                    <span class="item-name"><strong>+BONUS</strong> Curso de Introducción a AutoCad</span>
-                    <span class="item-price">Incluido</span>
-                </div>
-                <div class="order-item">
-                    <span class="item-name"><strong>+BONUS</strong> Curso Introducción FreeCad</span>
-                    <span class="item-price">Incluido</span>
-                </div>
-                <div class="order-item">
-                    <span class="item-name"><strong>+BONUS</strong> Curso Introducción Excel</span>
-                    <span class="item-price">Incluido</span>
-                </div>-->
                 <div class="order-item">
                     <span class="item-name">Total a Pagar</span>
-                    <span class="item-price">$129 MXN</span>
+                    <span class="item-price" id="totalPrice">$129 MXN</span>
                 </div>
             </div>
 
@@ -393,28 +556,28 @@
                         <span class="bank-label">Banco:</span>
                         <span class="bank-value">
                             BBVA México
-                            <button class="copy-btn" onclick="copyText('BBVA México')">Copiar</button>
+                            <button class="copy-btn" onclick="copyText('BBVA México', this)">Copiar</button>
                         </span>
                     </div>
                     <div class="bank-detail">
                         <span class="bank-label">Titular:</span>
                         <span class="bank-value">
                             Diego Armando Gaona Ramírez
-                            <button class="copy-btn" onclick="copyText('Diego Armando Gaona Ramírez')">Copiar</button>
+                            <button class="copy-btn" onclick="copyText('Diego Armando Gaona Ramírez', this)">Copiar</button>
                         </span>
                     </div>
                     <div class="bank-detail">
                         <span class="bank-label">CLABE:</span>
                         <span class="bank-value">
                             012210028972966223
-                            <button class="copy-btn" onclick="copyText('012210028972966223')">Copiar</button>
+                            <button class="copy-btn" onclick="copyText('012210028972966223', this)">Copiar</button>
                         </span>
                     </div>
                     <div class="bank-detail">
                         <span class="bank-label">Concepto:</span>
                         <span class="bank-value">
                             Paquete de Planos
-                            <button class="copy-btn" onclick="copyText('Paquete SolidWorks')">Copiar</button>
+                            <button class="copy-btn" onclick="copyText('Paquete de Planos', this)">Copiar</button>
                         </span>
                     </div>
                 </div>
@@ -448,30 +611,201 @@
     </div>
 
     <script>
-        function copyText(text) {
-            navigator.clipboard.writeText(text).then(function() {
-                // Find the button that was clicked
-                event.target.textContent = '¡Copiado!';
-                event.target.classList.add('copied');
+        // Timer Configuration
+        const TIMER_DURATION = 30 * 60; // 30 minutes in seconds
+        const EXTENSION_DURATION = 10 * 60; // 10 minutes in seconds
+        const WARNING_TIME = 5 * 60; // 5 minutes
+        const DANGER_TIME = 60; // 1 minute
+
+        let timerInterval;
+
+        // Initialize timer on page load
+        function initTimer() {
+            const storedEndTime = localStorage.getItem('checkoutEndTime');
+            const now = Math.floor(Date.now() / 1000);
+
+            // Check if price should be at 299
+            const currentPrice = getCurrentPrice();
+            if (currentPrice == 299) {
+                document.getElementById('totalPrice').textContent = '$299 MXN';
+                document.getElementById('totalPrice').classList.add('expired');
+            }
+
+            if (storedEndTime && parseInt(storedEndTime) > now) {
+                // Timer already exists and is still valid
+                startTimerFromStorage(parseInt(storedEndTime));
+            } else if (storedEndTime && parseInt(storedEndTime) <= now) {
+                // Timer expired, show expired state
+                timerExpired();
+            } else {
+                // Create new timer
+                const endTime = now + TIMER_DURATION;
+                localStorage.setItem('checkoutEndTime', endTime);
+                localStorage.setItem('currentPrice', 129);
+                startTimerFromStorage(endTime);
+            }
+
+            // Track timer start
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'timer_started', {
+                    'event_category': 'checkout',
+                    'event_label': 'timer_30min'
+                });
+            }
+        }
+
+        function startTimerFromStorage(endTime) {
+            updateTimerDisplay(endTime);
+            
+            timerInterval = setInterval(() => {
+                updateTimerDisplay(endTime);
+            }, 1000);
+        }
+
+        function updateTimerDisplay(endTime) {
+            const now = Math.floor(Date.now() / 1000);
+            const remainingSeconds = endTime - now;
+
+            if (remainingSeconds <= 0) {
+                timerExpired();
+                return;
+            }
+
+            const minutes = Math.floor(remainingSeconds / 60);
+            const seconds = remainingSeconds % 60;
+            
+            const display = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            const timerDisplay = document.getElementById('timerDisplay');
+            timerDisplay.textContent = display;
+
+            // Apply warning/danger classes
+            timerDisplay.classList.remove('warning', 'danger');
+            if (remainingSeconds <= DANGER_TIME) {
+                timerDisplay.classList.add('danger');
+            } else if (remainingSeconds <= WARNING_TIME) {
+                timerDisplay.classList.add('warning');
+            }
+        }
+
+        function timerExpired() {
+            clearInterval(timerInterval);
+            document.getElementById('timerContainer').style.display = 'none';
+            document.getElementById('expiredContainer').style.display = 'block';
+            
+            // Change price to $299
+            updatePrice(299);
+            
+            // Track expiration
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'timer_expired', {
+                    'event_category': 'checkout',
+                    'event_label': 'timer_expired',
+                    'value': 299
+                });
+            }
+
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'TimerExpired', {value: 299, currency: 'MXN'});
+            }
+        }
+
+        function updatePrice(newPrice) {
+            const priceElement = document.getElementById('totalPrice');
+            priceElement.textContent = `${newPrice} MXN`;
+            priceElement.classList.add('expired');
+            
+            // Update localStorage to track price
+            localStorage.setItem('currentPrice', newPrice);
+        }
+
+        function getCurrentPrice() {
+            return localStorage.getItem('currentPrice') || 129;
+        }
+
+        function extendTimer() {
+            const now = Math.floor(Date.now() / 1000);
+            const newEndTime = now + EXTENSION_DURATION;
+            localStorage.setItem('checkoutEndTime', newEndTime);
+            
+            // Restore original price
+            updatePrice(129);
+            document.getElementById('totalPrice').classList.remove('expired');
+            
+            document.getElementById('timerContainer').style.display = 'block';
+            document.getElementById('expiredContainer').style.display = 'none';
+            
+            startTimerFromStorage(newEndTime);
+
+            // Track extension
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'timer_extended', {
+                    'event_category': 'checkout',
+                    'event_label': 'extended_10min',
+                    'value': 129
+                });
+            }
+
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'TimerExtended', {value: 129, currency: 'MXN'});
+            }
+        }
+
+        function contactSupport() {
+            window.open('https://wa.me/5214621579719?text=Hola, necesito ayuda con mi compra. Mi tiempo expiró.', '_blank');
+            
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'contact_support', {
+                    'event_category': 'checkout',
+                    'event_label': 'timer_expired_support'
+                });
+            }
+        }
+
+        // Copy to clipboard function
+        function copyText(text, button) {
+            navigator.clipboard.writeText(text).then(() => {
+                const originalText = button.textContent;
+                button.textContent = '¡Copiado!';
+                button.classList.add('copied');
                 
-                setTimeout(function() {
-                    event.target.textContent = 'Copiar';
-                    event.target.classList.remove('copied');
+                setTimeout(() => {
+                    button.textContent = originalText;
+                    button.classList.remove('copied');
                 }, 2000);
-            }).catch(function(err) {
-                console.error('Error al copiar: ', err);
+
+                // Track copy event
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'copy_bank_info', {
+                        'event_category': 'checkout',
+                        'event_label': text.substring(0, 20)
+                    });
+                }
+            }).catch(err => {
+                console.error('Error al copiar:', err);
                 alert('Texto copiado: ' + text);
             });
         }
 
-        // Auto-focus and select text when clicking on bank values
-        document.querySelectorAll('.bank-value').forEach(element => {
-            element.addEventListener('click', function() {
-                if (this.childNodes[0]) {
-                    const text = this.childNodes[0].textContent.trim();
-                    copyText(text);
-                }
-            });
+        // Reset timer function (for testing - remove in production)
+        function resetTimer() {
+            localStorage.removeItem('checkoutEndTime');
+            localStorage.removeItem('currentPrice');
+            location.reload();
+        }
+
+        // Initialize on page load
+        window.addEventListener('DOMContentLoaded', initTimer);
+
+        // Warn user before leaving page
+        window.addEventListener('beforeunload', (e) => {
+            const storedEndTime = localStorage.getItem('checkoutEndTime');
+            const now = Math.floor(Date.now() / 1000);
+            
+            if (storedEndTime && parseInt(storedEndTime) > now) {
+                e.preventDefault();
+                e.returnValue = '¿Seguro que quieres salir? Tu tiempo de reserva seguirá corriendo.';
+                return e.returnValue;
+            }
         });
     </script>
 </body>
