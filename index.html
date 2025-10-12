@@ -658,6 +658,7 @@
                 
                 const whatsappMessage = `¡Hola! Ya realicé mi transferencia por el Paquete Planos en PDF de $299 MXN. Adjunto mi comprobante de pago.`;
                 whatsappBtn.href = `https://wa.me/5214621579719?text=${encodeURIComponent(whatsappMessage)}`;
+                document.getElementById('timerContainer').style.display = 'none';
             }
 
             if (storedEndTime && parseInt(storedEndTime) > now) {
