@@ -754,14 +754,7 @@
             }
         }
 
-        function updatePrice(newPrice) {
-            const priceElement = document.getElementById('totalPrice');
-            priceElement.textContent = `${newPrice} MXN`;
-            priceElement.classList.add('expired');
-            
-            // Update localStorage to track price
-            localStorage.setItem('currentPrice', newPrice);
-        }
+        function updatePrice(newPrice) { const priceElement = document.getElementById('totalPrice'); const instructionPrice = document.getElementById('instructionPrice'); const whatsappBtn = document.getElementById('whatsappBtn'); priceElement.textContent = `$${newPrice} MXN`; priceElement.classList.add('expired'); instructionPrice.textContent = `$${newPrice} MXN`; // Update WhatsApp message const whatsappMessage = `¡Hola! Ya realicé mi transferencia por el Paquete Planos en PDF de $${newPrice} MXN. Adjunto mi comprobante de pago.`; whatsappBtn.href = `https://wa.me/5214621579719?text=${encodeURIComponent(whatsappMessage)}`; // Update localStorage to track price localStorage.setItem('currentPrice', newPrice); }
 
         function getCurrentPrice() {
             return localStorage.getItem('currentPrice') || 129;
